@@ -1,0 +1,4 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","749","login con credenciales inválidas muestra mensaje de error","chromium","2026-05-31","passed","2026-05-31","Login","","",""
+"","935","login exitoso con standard_user navega al inventario","chromium","2026-05-31","passed","2026-05-31","Login","","",""
+"","730","login con usuario bloqueado muestra mensaje de error","chromium","2026-05-31","passed","2026-05-31","Login","","",""

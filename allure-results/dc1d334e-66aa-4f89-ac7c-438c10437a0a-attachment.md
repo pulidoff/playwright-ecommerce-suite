@@ -1,0 +1,108 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: cart.spec.js >> Cart >> agregar un producto y removerlo deja el carrito vacío
+- Location: tests\cart.spec.js:23:3
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for locator('[data-test="cart-item"]').filter({ hasText: 'Sauce Labs Backpack' }).locator('[data-test^="remove"]')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]:
+          - button "Open Menu" [ref=e8] [cursor=pointer]
+          - img "Open Menu" [ref=e9]
+        - generic [ref=e11]: Swag Labs
+        - generic [ref=e14]: "1"
+      - generic [ref=e16]: Your Cart
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - generic [ref=e20]: QTY
+        - generic [ref=e21]: Description
+        - generic [ref=e22]:
+          - generic [ref=e23]: "1"
+          - generic [ref=e24]:
+            - link "Sauce Labs Backpack" [ref=e25] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e26]: Sauce Labs Backpack
+            - generic [ref=e27]: carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.
+            - generic [ref=e28]:
+              - generic [ref=e29]: $29.99
+              - button "Remove" [ref=e30] [cursor=pointer]
+      - generic [ref=e31]:
+        - button "Go back Continue Shopping" [ref=e32] [cursor=pointer]:
+          - img "Go back" [ref=e33]
+          - text: Continue Shopping
+        - button "Checkout" [ref=e34] [cursor=pointer]
+  - contentinfo [ref=e35]:
+    - list [ref=e36]:
+      - listitem [ref=e37]:
+        - link "Twitter" [ref=e38] [cursor=pointer]:
+          - /url: https://twitter.com/saucelabs
+      - listitem [ref=e39]:
+        - link "Facebook" [ref=e40] [cursor=pointer]:
+          - /url: https://www.facebook.com/saucelabs
+      - listitem [ref=e41]:
+        - link "LinkedIn" [ref=e42] [cursor=pointer]:
+          - /url: https://www.linkedin.com/company/sauce-labs/
+    - generic [ref=e43]: © 2026 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy
+```
+
+# Test source
+
+```ts
+  1  | const { expect } = require('@playwright/test');
+  2  | 
+  3  | class CartPage {
+  4  |   constructor(page) {
+  5  |     this.page           = page;
+  6  |     this.cartList       = page.locator('[data-test="cart-list"]');
+  7  |     this.cartItem       = page.locator('[data-test="cart-item"]');
+  8  |     this.checkoutButton = page.locator('[data-test="checkout"]');
+  9  |   }
+  10 | 
+  11 |   async verifyProductInCart(productName) {
+  12 |     const item = this.cartItem.filter({
+  13 |       has: this.page.locator('[data-test$="title-link"]', { hasText: productName })
+  14 |     });
+  15 |     await expect(item).toBeVisible();
+  16 |   }
+  17 | 
+  18 |   async getCartItems() {
+  19 |     return this.cartItem;
+  20 |   }
+  21 | 
+  22 |   async checkout() {
+  23 |     await this.checkoutButton.click();
+  24 |   }
+  25 | 
+  26 |   async removeProduct(productName) {
+  27 |     const item = this.cartItem.filter({ hasText: productName });
+> 28 |     await item.locator('[data-test^="remove"]').click();
+     |                                                 ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  29 |   }
+  30 | }
+  31 | 
+  32 | module.exports = { CartPage };
+  33 | 
+```

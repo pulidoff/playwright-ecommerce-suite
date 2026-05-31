@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "PowerShell(Get-Command *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\manue\\\\ProjectsQA\\\\playwright-ecommerce-suite\" -Exclude node_modules -Recurse | Where-Object { !$_.PSIsContainer } | Select-Object FullName)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\manue\\\\ProjectsQA\\\\playwright-ecommerce-suite\" -Depth 2 | Where-Object { $_.Name -ne 'node_modules' -and $_.Name -ne 'allure-report' -and $_.Name -ne 'allure-results' -and $_.Name -ne 'test-results' -and $_.Name -ne '.github' } | Select-Object FullName, PSIsContainer)"
+    ]
+  }
+}
